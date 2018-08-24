@@ -33,11 +33,18 @@ user = tweepy.API(auth)
 tweets = tweepy.Cursor(user.search, q=symbol, tweet_mode='extended', lang='en').items(ct.num_of_tweets)
 
 tweet_list = []
-
+global_polarity = 0
 for tweet in tweets:
     tw = tweet.full_text
     blob = TextBlob(tw)
     polarity = 0
     for sentence in blob.sentences:
         polarity += sentence.sentiment.polarity
+        global_polarity += sentence.sentiment.polarity
     tweet_list.append(Tweet(tw, polarity))
+
+if global_polarity > 0.3:
+    print("According to the predictions and twitter sentiment analysis -> Investing in %s is a GREAT idea!" % str(symbol))
+elif global_polarity < 0:
+    print("According to the predictions and twitter sentiment analysis -> Investing in %s is a BAD idea!" % str(
+        symbol))

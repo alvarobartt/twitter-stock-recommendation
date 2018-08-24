@@ -6,8 +6,7 @@ from Tweet import Tweet
 import fix_yahoo_finance as yf
 import datetime as dt
 
-actual_date = dt.date.today()
-last_month_date = actual_date - dt.timedelta(days=30)
+
 flag = False
 df = pd.read_csv('companylist.csv', usecols=[0])
 
@@ -16,8 +15,15 @@ while flag is False:
     for index in range(len(df)):
         if df['Symbol'][index] == symbol:
             flag = True
+            symbol = symbol
 
-data = yf.download("SPY", start="2017-01-01", end="2017-04-30")
+actual_date = dt.date.today()
+last_month_date = actual_date - dt.timedelta(days=30)
+
+actual_date = actual_date.strftime("%Y-%m-%d")
+last_month_date = last_month_date.strftime("%Y-%m-%d")
+
+data = yf.download(str(symbol), start=last_month_date, end=actual_date)
 df = pd.DataFrame(data=data)
 
 auth = tweepy.OAuthHandler(ct.consumer_key, ct.consumer_secret)
@@ -26,14 +32,12 @@ user = tweepy.API(auth)
 
 tweets = tweepy.Cursor(user.search, q=symbol, tweet_mode='extended', lang='en').items(ct.num_of_tweets)
 
-analysis_tw = list()
+tweet_list = []
+
 for tweet in tweets:
-    analysis_tw.append(tweet.full_text.strip())
-
-
-for tw in analysis_tw:
+    tw = tweet.full_text
     blob = TextBlob(tw)
     polarity = 0
     for sentence in blob.sentences:
         polarity += sentence.sentiment.polarity
-    t = Tweet(tw, polarity)
+    tweet_list.append(Tweet(tw, polarity))

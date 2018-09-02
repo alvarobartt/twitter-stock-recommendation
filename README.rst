@@ -205,11 +205,11 @@ Author & License
 
 **Head of Development**
 
-* [Álvaro Bartolomé del Canto](https://github.com/alvarob96) - alvarob96@usal.es
+* `Álvaro Bartolomé del Canto <https://github.com/alvarob96>`_ - alvarob96@usal.es
 
 **Contributors**
 
-* [Diego García Alcalá](https://github.com/DiegoGca) - diegogcaalcala@usal.es
+* `Diego García Alcalá <https://github.com/DiegoGca>`_ - diegogcaalcala@usal.es
 *
 
 **twitter-stock-recommendation** is distributed under the **MIT License**. See the `LICENSE.txt <./LICENSE>`_ file in the release for details.

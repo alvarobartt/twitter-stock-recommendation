@@ -203,6 +203,13 @@ Now, to make the **recommendation** I check if the prediction was favorable comp
 Author & License
 ----------------
 
-Álvaro Bartolomé del Canto - alvarob96@usal.es
+#### Head of Development
+
+* [Álvaro Bartolomé del Canto](https://github.com/alvarob96) - alvarob96@usal.es
+
+### Contributors
+
+* [Diego García Alcalá](https://github.com/DiegoGca) - diegogcaalcala@usal.es
+*
 
 **twitter-stock-recommendation** is distributed under the **MIT License**. See the `LICENSE.txt <./LICENSE>`_ file in the release for details.

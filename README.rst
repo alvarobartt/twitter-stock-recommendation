@@ -203,11 +203,11 @@ Now, to make the **recommendation** I check if the prediction was favorable comp
 Author & License
 ----------------
 
-#### Head of Development
+**Head of Development**
 
 * [Álvaro Bartolomé del Canto](https://github.com/alvarob96) - alvarob96@usal.es
 
-### Contributors
+**Contributors**
 
 * [Diego García Alcalá](https://github.com/DiegoGca) - diegogcaalcala@usal.es
 *

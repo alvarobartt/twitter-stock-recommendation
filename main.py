@@ -1,7 +1,7 @@
 import datetime as dt
 import math
 
-import fix_yahoo_finance as yf
+import yfinance as yf
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -17,11 +17,12 @@ from Tweet import Tweet
 
 style.use('ggplot')
 
+
 def check_stock_symbol(flag=False, companies_file='companylist.csv'):
     df = pd.read_csv(companies_file, usecols=[0])
 
     while flag is False:
-        symbol = raw_input('Enter a stock symbol to retrieve data from: ').upper()
+        symbol = input('Enter a stock symbol to retrieve data from: ').upper()
         for index in range(len(df)):
             if df['Symbol'][index] == symbol:
                 flag = True
@@ -42,7 +43,7 @@ def get_stock_data(symbol, from_date, to_date):
 
 def stock_forecasting(df):
     forecast_col = 'Close'
-    forecast_out = int(math.ceil(0.1*len(df)))
+    forecast_out = int(math.ceil(0.1 * len(df)))
     df['Label'] = df[[forecast_col]].shift(-forecast_out)
 
     X = np.array(df.drop(['Label'], axis=1))
@@ -76,6 +77,7 @@ def forecast_plot(df):
     df['Prediction'].plot(color='green')
     plt.legend(loc=4)
     plt.xlabel('Date')
+    plt.xticks(rotation=45)
     plt.ylabel('Price')
     plt.show()
 
@@ -103,13 +105,17 @@ def retrieving_tweets_polarity(symbol):
 
 
 def recommending(df, forecast_out, global_polarity):
-    if df.iloc[-forecast_out-1]['Close'] < df.iloc[-1]['Prediction']:
+    if df.iloc[-forecast_out - 1]['Close'] < df.iloc[-1]['Prediction']:
         if global_polarity > 0:
-            print("According to the predictions and twitter sentiment analysis -> Investing in %s is a GREAT idea!" % str(symbol))
+            print(
+                "According to the predictions and twitter sentiment analysis -> Investing in %s is a GREAT idea!" % str(
+                    symbol))
         elif global_polarity < 0:
-            print("According to the predictions and twitter sentiment analysis -> Investing in %s is a BAD idea!" % str(symbol))
+            print("According to the predictions and twitter sentiment analysis -> Investing in %s is a BAD idea!" % str(
+                symbol))
     else:
-        print("According to the predictions and twitter sentiment analysis -> Investing in %s is a BAD idea!" % str(symbol))
+        print("According to the predictions and twitter sentiment analysis -> Investing in %s is a BAD idea!" % str(
+            symbol))
 
 
 if __name__ == "__main__":
@@ -121,15 +127,13 @@ if __name__ == "__main__":
         actual_date = actual_date.strftime("%Y-%m-%d")
         past_date = past_date.strftime("%Y-%m-%d")
 
-        print "Retrieving Stock Data from introduced symbol..."
+        print("Retrieving Stock Data from introduced symbol...")
         dataframe = get_stock_data(symbol, past_date, actual_date)
-        print "Forecasting stock DataFrame..."
+        print("Forecasting stock DataFrame...")
         (dataframe, forecast_out) = stock_forecasting(dataframe)
-        print "Plotting existing and forecasted values..."
-        forecast_plot(dataframe)
-        print "Retrieving %s related tweets polarity..." % symbol
+        print("Retrieving %s related tweets polarity..." % symbol)
         polarity = retrieving_tweets_polarity(symbol)
-        print "Generating recommendation based on prediction & polarity..."
+        print("Generating recommendation based on prediction & polarity...")
         recommending(dataframe, forecast_out, polarity)
-
-
+        print("Plotting existing and forecasted values...")
+        forecast_plot(dataframe)
